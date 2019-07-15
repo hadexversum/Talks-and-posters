@@ -98,14 +98,14 @@
 
 % -----------------------------------------------------------Autorzy, mail, afiliacje
 \date{}
-\author{Weronika Pucha\l{}a\,$^{\text{\sfb 1}}$,
+\author{Weronika Pucha\l{}a*\,$^{\text{\sfb 1}}$,
 Micha\l{} Burdukiewicz\,$^{\text{\sfb 2}}$,
 Micha\l{} Kistowski\,$^{\text{\sfb 1}}$,
 Katarzyna D\k{a}browa-D\k{a}browska\,$^{\text{\sfb 1}}$,
 Aleksandra E. Badaczewska-Dawid\,$^{\text{\sfb 3}}$,\\ 
 Dominik Cysewski\,$^{\text{\sfb 1},*}$,
 Micha\l{} Dadlez\,$^{\text{\sfb 1}}$\\
-\normaltext{*dominikcysewski@gmail.com}}
+\normaltext{*puchala.weronika@gmail.com}}
 \institute{$^{\text{\sf 1}}$Institute of Biochemistry and Biophysics Polish Academy of Sciences, Poland,
 $^{\text{\sf 2}}$Faculty of Mathematics and Information Science, Warsaw University of 
 Technology, Poland,
@@ -130,6 +130,8 @@ library(HaDeX)
 library(ggplot2)
 #library(patchwork)
 library(dplyr)
+library(grid)
+library(gridExtra)
 
 knitr::opts_chunk$set(out.width=1000, out.height=750)
 
@@ -211,7 +213,7 @@ u_{c}(D) = \sqrt{ \left[ \frac{1}{D_{100}-D_{0}} u(D_{t}) \right]^2 + \left[ \fr
                  state_second = "Nucb2 Factor 2") +
    poster_theme
  
- c1 # + c2
+ grid.arrange(c1, c2, ncol = 2)
  
  @
 \caption{Comparison plots - comparing experimental and theoretical calculations, based on example data.}
@@ -291,7 +293,7 @@ u_{c}(diff) = \sqrt{u(D_{1})^2 + u(D_{2})^2}
    poster_theme +
    scale_y_continuous(limits = c(-0.6, 0.8), expand = c(0, 0))
  
- w1 # + w2
+ grid.arrange(w1, w2, ncol = 2)
  
 @
 \caption{Plots in Woods format - comparing experimental and theoretical calculations, based on example data.}
@@ -351,7 +353,6 @@ how the mean uncertainty per peptide changes with time points of an experiment.
 \end{columns}
 
 \end{block}
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
