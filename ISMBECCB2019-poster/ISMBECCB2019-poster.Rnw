@@ -80,7 +80,7 @@
 %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 \newlength{\columnheight}
-\setlength{\columnheight}{82cm} % ------------------------------- od jakiej wysokości mają zaczynać się klocki, ale też miejsce dla tytułu autorów, afiliacji
+\setlength{\columnheight}{84cm} % ------------------------------- od jakiej wysokości mają zaczynać się klocki, ale też miejsce dla tytułu autorów, afiliacji
 \renewcommand{\thetable}{}
 \def\andname{,}
 \authornote{}
@@ -95,7 +95,7 @@
 %-------------------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------- Tytuł
 
-\title{\Huge \includegraphics[width=0.15\columnwidth]{figure/mock_logo.png}: an R package and web-server for analysis of data from \\ hydrogen-deuterium exchange mass spectrometry experiments} 
+\title{\Huge \includegraphics[width=0.15\columnwidth]{figure/mock_logo.png} an R package and web-server for analysis of data from \\ hydrogen-deuterium exchange mass spectrometry experiments} 
 
 % -----------------------------------------------------------  Autorzy, mail, afiliacje
 \vspace{1.5cm}
@@ -156,45 +156,78 @@ calc_dat <- prepare_dataset(dat,
 \justify Hydrogen-deuterium mass spectrometry (HDX-MS) is a staple tool for monitoring dynamics and interactions of proteins. Due to the sheer size of the HDX-MS results, the data analysis require a dedicated software suite. However, the majority of existing tools provides only point-and-click interfaces to black-box models or does not offer a complete analytic workflow. We propose \textbf{HaDeX}, a novel tool for processing, analysis and visualisation of HDX-MS experiments. \textbf{HaDeX} covers the whole analytic process, including quality control, ISO-based uncertainty and publication-quality figures. The reproducibility of the whole procedure is ensured with advanced reporting functions. It is important to us that our analytic methodology is transparent and understandable for the users so it is consulted with international experts and discussed in-depth in the package vignette.
 
 \end{block}
-\vspace{1.5cm}
+\vspace{0.5cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{block}{Main functionality}
 
-\justify The main audience for HaDeX is HDX-MS practitioners whose area of expertise doesn’t include programming and advanced data analysis skills. To help them with their work, HaDeX is also available as a Shiny web server with a wide range of clickable customizable options. For users operating on sensitive data standalone application is available. To ensure publication-quality figures all the plots are fully editable by the user and processed data is easily downloadable in every step. 
+\justify The main audience for HaDeX is HDX-MS practitioners whose area of expertise doesn’t include programming and advanced data analysis skills. To help them with their work, HaDeX is also available as a Shiny web server with a wide range of clickable customizable options. To ensure publication-quality figures all the plots are fully editable by the user and processed data is easily downloadable in every step. 
+
+\vspace{0.5cm}
 
 \begin{figure}
-\includegraphics[width=1\columnwidth]{figure/web_server.png}
+\includegraphics[width=0.98\columnwidth]{figure/web_server.png}
 \caption{Overview of \textbf{HaDeX} app}
 \label{fig:all}
 \end{figure}
 
 \end{block}
-\vspace{1.5cm}
+\vspace{0.5cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{block}{Overview of the sequence} 
+\begin{block}{Calculations and uncertainty}
 
-\justify The \textbf{HaDeX} provides the tools to view and analyse the results of HDX-MS data. Obtained data is used to show information in different ways.
+\justify \textbf{Comparison Plot}
 
-\begin{figure}
-  \includegraphics[width=1\columnwidth]{figure/sequence_1.png}
-  \caption{Sequence reconstruction and basic information}
-\end{figure}
+\justify An important aspect of analysing data is a comparison of peptide deuteration in different states. A relative deuteration level used by \textbf{HaDeX} is defined by the equation \ref{eq:deut_lev}.
 
-\begin{figure}
-  \includegraphics[width=1\columnwidth]{figure/sequence_2.png}
-  \caption{Sequence coverage shown in two variants}
-\end{figure}
+\begin{equation}
+D = \frac{D_{t} - D_{0}}{D_{100} - D_{0}}
+\label{eq:deut_lev}
+\end{equation}
+
+\vspace{0.25cm}
+
+\justify The levels of deuteration along with uncertainty intervals are shown on figure~\ref{fig:all}. \textbf{HaDeX} provide both experimental and theroetical levels of deuteration in two variants: with relative or absolute values. 
+
+\vspace{0.25cm}
+
+\justify \textbf{Woods Plot}
+
+\justify Woods plot format shows diference between results of two different states as described by equation \ref{eq:diff}.
+
+\begin{equation}
+diff = D_{1} - D_{2}
+\label{eq:diff}
+\end{equation}
+
+\vspace{0.25cm}
+
+\justify Described calculations lead to results shown on Woods plot format - figure~\ref{fig:all}.
+
+\justify \textbf{Uncertainty of the measurement}
+
+\justify The equation \ref{eq:deut_lev} and \ref{eq:diff} are functions of multiple variables (each with its own uncertainty), so there is need to use the Law of Propagation of Uncertainty, defined in equation \ref{eq:law_un}:
+
+\begin{equation}
+u_{c}(y) = \sqrt{\sum_{k} \left[ \frac{\partial y}{\partial x_{k}} u(x_{k}) \right]^2}
+\label{eq:law_un}
+\end{equation}
+
+\vspace{0.25cm}
+
+\justify The Law of Propagation of Uncertainty, as described by equation \ref{eq:law_un} is applied to both \ref{eq:deut_lev} and \ref{eq:diff}. Uncertaintly calculated this way are compatibile with guidelines developed by International Organization for Standardization.
 
 \end{block}
-\vspace{1.2cm}
+\vspace{0.8cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{block}{Availability}
+
+\vspace{0.25cm}
 
 \textbf{HaDeX} is available as a web server:
      \url{http://mslab-ibb.pl/shiny/HaDeX/}$\begin{array}{l}
@@ -245,65 +278,21 @@ and as a standalone software:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{block}{Calculations and uncertainty}
+\begin{block}{Overview of the sequence} 
 
-\justify \textbf{Comparison Plot}
+\justify The \textbf{HaDeX} provides the tools to view and analyse the results of HDX-MS data. Obtained data is used to show information in different ways.
 
-\justify An important aspect of analysing data is a comparison of peptide deuteration in different states. A relative deuteration level used by \textbf{HaDeX} is defined by the equation \ref{eq:deut_lev}.
+\begin{figure}
+  \includegraphics[width=0.98\columnwidth]{figure/sequence_1.png}
+  \caption{Sequence reconstruction and basic information}
+\end{figure}
 
-\begin{equation}
-D = \frac{D_{t} - D_{0}}{D_{100} - D_{0}}
-\label{eq:deut_lev}
-\end{equation}
-
-\vspace{0.25cm}
-
-\justify The equation \ref{eq:deut_lev} is a function of three variables (each with its own uncertainty), so there is need to use the Law of Propagation of Uncertainty, defined in equation \ref{eq:law_un}:
-
-\begin{equation}
-u_{c}(y) = \sqrt{\sum_{k} \left[ \frac{\partial y}{\partial x_{k}} u(x_{k}) \right]^2}
-\label{eq:law_un}
-\end{equation}
-
-\vspace{0.25cm}
-
-\justify Applying equation \ref{eq:law_un} to equation \ref{eq:deut_lev}, we get deuteration level uncertainty described by equation \ref{eq:deut_lev_un}:
-
-\begin{equation}
-u_{c}(D) = \sqrt{ \left[ \frac{1}{D_{100}-D_{0}} u(D_{t}) \right]^2 + \left[ \frac{D_{t} - D_{100}}{(D_{100}-D_{0})^2} u(D_{0}) \right]^2 + \left[ \frac{D_{0} - D_{t}}{(D_{100}-D_{0})^2} u(D_{100}) \right]^2}
-\label{eq:deut_lev_un}
-\end{equation}
-
-\vspace{0.25cm}
-
-\justify The levels of deuteration along with uncertainty intervals are shown on figure~\ref{fig:all}. \textbf{HaDeX} provide both experimental and theroetical levels of deuteration in two variants: with relative or absolute values. 
-
-\vspace{0.5cm}
-
-\justify \textbf{Woods Plot}
-
-\justify Woods plot format shows diference between results of two different states as described by equation \ref{eq:diff}.
-
-\begin{equation}
-diff = D_{1} - D_{2}
-\label{eq:diff}
-\end{equation}
-
-\vspace{0.25cm}
-
-Equation \ref{eq:diff} is a function of two variables, so applying equation \ref{eq:law_un} we get uncertainty described by equation \ref{eq:diff_un}.
-
-\begin{equation}
-u_{c}(diff) = \sqrt{u(D_{1})^2 + u(D_{2})^2}
-\label{eq:diff_un}
-\end{equation}
-
-\vspace{0.25cm}
-
-\justify Described calculations lead to results shown on Woods plot format - figure~\ref{fig:all}.
+\begin{figure}
+  \includegraphics[width=0.98\columnwidth]{figure/sequence_2.png}
+  \caption{Sequence coverage shown in two variants}
+\end{figure}
 
 \end{block}
-\vspace{1.5cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -335,13 +324,12 @@ how the mean uncertainty per peptide changes with time points of an experiment.
 \end{figure}
 
 \end{block}
-\vspace{1.5cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{block}{Report function}
 
-\vspace{1cm}
+\vspace{0.5cm}
 
 \begin{columns}
 \begin{column}{0.5\textwidth}
@@ -359,7 +347,6 @@ how the mean uncertainty per peptide changes with time points of an experiment.
 \end{columns}
 
 \end{block}
-\vspace{1.5cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -372,7 +359,6 @@ how the mean uncertainty per peptide changes with time points of an experiment.
 \end{figure}
 
 \end{block}
-\vspace{1cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
