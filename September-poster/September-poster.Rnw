@@ -1,0 +1,393 @@
+\documentclass[final]{beamer}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{epstopdf}
+\usepackage{multicol}
+\usepackage{ragged2e}
+
+%\usepackage{polski}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{grffile}
+\mode<presentation>{\usetheme{Poster}}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{array,booktabs,tabularx}
+\usepackage{epstopdf}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{colortbl}
+\newcolumntype{Z}{>{\centering\arraybackslash}X}
+
+% rysunki
+\usepackage{tikz}
+\usepackage{ifthen}
+\usepackage{xxcolor}
+\usetikzlibrary{arrows}
+\usetikzlibrary[topaths]
+\usetikzlibrary{decorations.pathreplacing}
+\usefonttheme[onlymath]{serif}
+\boldmath
+\usepackage[orientation=portrait,size=a0,scale=1,debug]{beamerposter}                       % e.g. for DIN-A0 poster
+%\usepackage[orientation=portrait,size=a1,scale=1.4,grid,debug]{beamerposter}                  % e.g. for DIN-A1 poster, with optional grid and debug output
+%\usepackage[size=custom,width=200,height=120,scale=2,debug]{beamerposter}                     % e.g. for custom size poster
+%\usepackage[orientation=portrait,size=a0,scale=1.0,printer=rwth-glossy-uv.df]{beamerposter}   % e.g. for DIN-A0 poster with rwth-glossy-uv printer check
+% ...
+%
+
+\setbeamertemplate{caption}[numbered]
+
+%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+\newlength{\columnheight}
+\setlength{\columnheight}{84cm} % ------------------------------- od jakiej wysokości mają zaczynać się klocki, ale też miejsce dla tytułu autorów, afiliacji
+\renewcommand{\thetable}{}
+\def\andname{,}
+\authornote{}
+
+
+
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+% Początek posteru
+%-------------------------------------------------------------------------------------------------------------------
+%-------------------------------------------------------------- Tytuł
+
+\title{\Huge \includegraphics[width=0.15\columnwidth]{figure/mock_logo.png} an R package and web-server for analysis of data from \\ hydrogen-deuterium exchange mass spectrometry experiments} 
+
+% -----------------------------------------------------------  Autorzy, mail, afiliacje
+\vspace{1.5cm}
+
+\author{Weronika Pucha\l{}a\,$^{\text{\sfb 1}, *}$,
+Micha\l{} Burdukiewicz\,$^{\text{\sfb 2}}$,
+Micha\l{} Kistowski\,$^{\text{\sfb 1}}$,
+Katarzyna A. D\k{a}browska\,$^{\text{\sfb 1}}$,
+Aleksandra E. Badaczewska-Dawid\,$^{\text{\sfb 3}}$,\\ 
+Dominik Cysewski\,$^{\text{\sfb 1}}$,
+Micha\l{} Dadlez\,$^{\text{\sfb 1}}$\\
+\normaltext{*puchala.weronika@gmail.com}}
+\institute{$^{\text{\sf 1}}$Institute of Biochemistry and Biophysics Polish Academy of Sciences, Poland,
+$^{\text{\sf 2}}$Faculty of Mathematics and Information Science, Warsaw University of 
+Technology, Poland,
+$^{\text{\sf 3}}$Faculty of Chemistry, Biological and Chemical Research Center, University of Warsaw, Poland.
+}
+}
+
+ \begin{frame}
+ 
+\begin{columns}
+\begin{column}{.5\textwidth} %------------------------------------------------ szerokość kolumny lewej
+\begin{beamercolorbox}[center,wd=\textwidth]{postercolumn}
+\begin{minipage}[T]{.99\textwidth}
+\parbox[t][\columnheight]{\textwidth}
+{
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{block}{Introduction}
+  <<echo=FALSE, warning=FALSE, error=FALSE, message=FALSE>>=
+  library(HaDeX)
+  library(ggplot2)
+  library(dplyr)
+  library(grid)
+  library(gridExtra)
+  
+  knitr::opts_chunk$set(out.width=900, out.height=700)
+  
+  poster_theme <- theme_bw(base_size = 10) +
+                  theme(legend.position = "bottom",
+                        legend.title = element_blank(),
+                        legend.direction = "vertical")
+  
+  dat <- read_hdx(system.file(package = "HaDeX", "HaDeX/data/KD_190304_Nucb2_EDTA_CaCl2_test02_clusterdata.csv"))
+  
+  calc_dat <- prepare_dataset(dat,
+                               in_state_first = "gg_Nucb2_EDTA_0.001",
+                               chosen_state_first = "gg_Nucb2_EDTA_25",
+                               out_state_first = "gg_Nucb2_EDTA_1440",
+                               in_state_second = "gg_Nucb2_CaCl2_0.001",
+                               chosen_state_second = "gg_Nucb2_CaCl2_25",
+                               out_state_second = "gg_Nucb2_CaCl2_1440") 
+  
+  @
+  
+  \justify Hydrogen-deuterium mass spectrometry (HDX-MS) is a staple tool for monitoring dynamics and interactions of proteins. Due to the sheer size of the HDX-MS results, the data analysis require a dedicated software suite. However, the majority of existing tools provides only point-and-click interfaces to black-box models or does not offer a complete analytic workflow. We propose \textbf{HaDeX}, a novel tool for processing, analysis and visualisation of HDX-MS experiments. \textbf{HaDeX} covers the whole analytic process, including quality control, ISO-based uncertainty and publication-quality figures. The reproducibility of the whole procedure is ensured with advanced reporting functions. It is important to us that our analytic methodology is transparent and understandable for the users so it is consulted with international experts and discussed in-depth in the package vignette.
+  
+  \end{block}
+\vspace{0.5cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{block}{Main functionality}
+  
+  \justify The main audience for \textbf{HaDeX} is HDX-MS practitioners whose area of expertise doesn’t include programming and advanced data analysis skills. To help them with their work, \textbf{HaDeX} is also available as a Shiny web server with a wide range of clickable customizable options. To ensure publication-quality figures all the plots are fully editable by the user and processed data is easily downloadable in every step. 
+  
+  \vspace{0.5cm}
+  
+  \begin{figure}
+    \includegraphics[width=0.98\columnwidth]{figure/web_server.png}
+    \caption{Overview of \textbf{HaDeX} app}
+    \label{fig:all}
+  \end{figure}
+
+\end{block}
+\vspace{0.5cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{block}{Calculations and uncertainty}
+
+  \justify \textbf{Comparison Plot}
+  
+  \justify An important aspect of analysing data is a comparison of peptide deuteration in different states. A relative deuteration level used by \textbf{HaDeX} is defined by the equation \ref{eq:deut_lev}.
+  
+    \begin{equation}
+    D = \frac{D_{t} - D_{0}}{D_{100} - D_{0}}
+    \label{eq:deut_lev}
+  \end{equation}
+  
+  \vspace{0.25cm}
+  
+  \justify The levels of deuteration along with uncertainty intervals are shown on figure~\ref{fig:all}. \textbf{HaDeX} provide both experimental and theroetical levels of deuteration in two variants: with relative or absolute values. 
+  
+  \vspace{0.25cm}
+  
+  \justify \textbf{Woods Plot}
+  
+  \justify Woods plot format shows diference between results of two different states as described by equation \ref{eq:diff}.
+  
+  \begin{equation}
+    diff = D_{1} - D_{2}
+    \label{eq:diff}
+  \end{equation}
+  
+  \vspace{0.25cm}
+  
+  \justify Described calculations lead to results shown on Woods plot format - figure~\ref{fig:all}.
+  
+  \justify \textbf{Uncertainty of the measurement}
+  
+  \justify The equation \ref{eq:deut_lev} and \ref{eq:diff} are functions of multiple variables (each with its own uncertainty), so there is need to use the Law of Propagation of Uncertainty, defined in equation \ref{eq:law_un}:
+  
+  \begin{equation}
+    u_{c}(y) = \sqrt{\sum_{k} \left[ \frac{\partial y}{\partial x_{k}} u(x_{k}) \right]^2}
+    \label{eq:law_un}
+  \end{equation}
+  
+  \vspace{0.25cm}
+  
+  \justify The Law of Propagation of Uncertainty, as described by equation \ref{eq:law_un} is applied to both \ref{eq:deut_lev} and \ref{eq:diff}. Uncertaintly calculated this way is compatibile with guidelines developed by International Organization for Standardization.
+
+\end{block}
+\vspace{0.8cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{block}{Availability}
+
+\vspace{0.25cm}
+
+\textbf{HaDeX} is available as a web server:
+     \url{http://mslab-ibb.pl/shiny/HaDeX/}$\begin{array}{l}
+        \begin{figure}[ht]
+          \centering
+          \scalebox{0.5}{
+            \includegraphics{figure/hadex_qr.png}
+          }
+        \end{figure}
+      \end{array}
+
+as the R package:
+\url{https://cran.r-project.org/web/packages/HaDeX/index.html}$\begin{array}{l}
+        \begin{figure}[ht]
+          \centering
+          \scalebox{0.5}{
+            \includegraphics{figure/cran_qr.png}
+          }
+        \end{figure}
+      \end{array}
+      
+and as a standalone software:
+\url{https://sourceforge.net/projects/hadex/}$\begin{array}{l}
+        \begin{figure}[ht]
+          \centering
+          \scalebox{0.5}{
+            \includegraphics{figure/sourceforge_qr.png}
+          }
+        \end{figure}
+      \end{array}
+
+
+\end{block}
+
+}
+\end{minipage}
+\end{beamercolorbox}
+\end{column}
+
+
+%new column -------------------------------------------------------------------------------------------------    
+
+\begin{column}{.47\textwidth} % ----------------------------------------- szerokość kolumny prawej
+\begin{beamercolorbox}[center,wd=\textwidth]{postercolumn}
+\begin{minipage}[T]{.99\textwidth}  
+\parbox[t][\columnheight]{\textwidth}
+{
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{block}{Overview of the sequence} 
+
+  \justify The \textbf{HaDeX} provides the tools to view and analyse the results of HDX-MS data. Obtained data is used to show information in different ways.
+  
+  \begin{figure}
+    \includegraphics[width=0.98\columnwidth]{figure/sequence_1.png}
+    \caption{Sequence reconstruction and basic information}
+  \end{figure}
+  
+  \begin{figure}
+    \includegraphics[width=0.98\columnwidth]{figure/sequence_2.png}
+    \caption{Sequence coverage shown in two variants}
+  \end{figure}
+
+\end{block}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{block}{Quality control}
+
+  \justify \textbf{HaDeX} provides additional tools for assement of experiments. For example, the quality control function shows
+  how the mean uncertainty per peptide changes with time points of an experiment.
+  
+  \begin{figure}
+    <<echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.align="center", fig.height=3.5, fig.width=6,out.height=450>>=
+     
+     result <- quality_control(dat = dat,
+                              state_first = "gg_Nucb2_EDTA",
+                              state_second = "gg_Nucb2_CaCl2",
+                              chosen_time = 25,
+                              in_time = 0.001)
+
+     ggplot(result[result["out_time"]>=1,]) +
+      geom_line(aes(x = out_time, y = avg_err_state_first, color = "Average error (first state)")) +
+      geom_line(aes(x = out_time, y = avg_err_state_second, color = "Average error (second state)")) +
+      labs(x = "time [min]", y = "Average uncertainty", title = "Uncertainty change") +
+      theme_bw(base_size = 11) +
+      theme(legend.position = "bottom",
+            legend.title = element_blank())
+    
+    @
+    \caption{Plot ilustrating uncertainy change depending on used out parameter}
+  \end{figure}
+
+\end{block}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{block}{Report function}
+
+  \vspace{0.5cm}
+  
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+       \textbf{HaDeX} provides report generation - with parameters chosen by user so is fully personalizable. Additionaly, calculated data for plots can be downloaded not only in report form but also in csv/pdf file in panel next to every plot. On figure \ref{fig:rep} are shown available elements of the report - that can be chosen by user and limited strickly for user needs.
+    \end{column}
+    \begin{column}{0.5\textwidth}  
+      \begin{center}
+        \begin{figure}
+          \includegraphics[width=0.8\columnwidth]{figure/report.png}
+          \caption{Screenshot of \textbf{HaDeX} - reporting page}
+          \label{fig:rep}
+        \end{figure}
+      \end{center}
+    \end{column}
+  \end{columns}
+
+\end{block}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{block}{Acknowledgements}
+
+  \justify The project is carried out within the TEAM TECH programme of the Foundation for Polish Science co-financed by the European Union under the European Regional Development Fund.(TEAM TECH CORE FACILITY/2016-2/2) „Mass Spectrometry of Biopharmaceuticals-improved methodologies for qualitative, quantitative and structural characterization of drugs, proteinaceous drug targets and diagnostic molecules”
+
+  \begin{figure}
+   \includegraphics[width=0.95\columnwidth]{figure/listwa.png}
+  \end{figure}
+
+\end{block}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{block}{Bibliography}
+  \begin{enumerate}
+  \small
+    \item [1] Start2Fold: a database of hydrogen/deuterium exchange data on protein folding and stability. Pancsa R,
+    Varadi M, Tompa P, Vranken WF. Nucleic Acids Res. 2016 Jan 4;44(D1):D429-34. doi:
+    10.1093/nar/gkv1185. Epub 2015 Nov 17
+    \item [2] MEMHDX: an interactive tool to expedite the statistical validation and visualization of large HDX-MS
+    datasets. Hourdel V, Volant S, O'Brien DP, Chenal A, Chamot-Rooke J, Dillies MA, Brier S. Bioinformatics.
+    2016 Nov 15;32(22):3413-3419. Epub 2016 Jul 13
+    \item [3] Deuteros: software for rapid analysis and visualization of data from differential hydrogen deuterium exchange-mass spectrometry, Andy M C Lau, Zainab Ahdash, Chloe Martens, Argyris Politis, Bioinformatics, btz022, https://doi.org/10.1093/bioinformatics/btz022
+    \item [4] ISO, Guide to the Expression of Uncertainty in Measurement (International Organization for Standardization, Geneva, Switzerland, 1993)
+    \item [5] The Utility of Hydrogen/Deuterium Exchange Mass Spectrometry in Biopharmaceutical Comparability Studies. Houde, D.et al.(2011). Journal of pharmaceutical sciences,100(6), 2071–2086
+  \end{enumerate}
+\end{block}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+}
+\end{minipage}
+\end{beamercolorbox}
+\end{column}
+\end{columns}  
+
+
+\end{frame}
+
+
+\end{document}
