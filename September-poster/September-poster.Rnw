@@ -95,7 +95,7 @@
 %-------------------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------- Tytuł
 
-\title{\Huge \includegraphics[width=0.15\columnwidth]{figure/mock_logo.png} an R package and web-server for analysis of data from \\ hydrogen-deuterium exchange mass spectrometry experiments} 
+\title{\Huge Analysis of data from hydrogen-deuterium exchange \\ mass spectometry experiments} 
 
 % -----------------------------------------------------------  Autorzy, mail, afiliacje
 \vspace{1.5cm}
@@ -296,30 +296,14 @@ and as a standalone software:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{block}{Quality control}
+\begin{block}{Kinetics of the peptides}
 
-  \justify \textbf{HaDeX} provides additional tools for assement of experiments. For example, the quality control function shows
-  how the mean uncertainty per peptide changes with time points of an experiment.
+  \justify \textbf{HaDeX} has a module for analyzing deuteration uptake change in time for given peptide in given time. For comparison, choosing multiple combinations of peptides and their states is possible for the plot. 
   
   \begin{figure}
-    <<echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.align="center", fig.height=3.5, fig.width=6,out.height=450>>=
-     
-     result <- quality_control(dat = dat,
-                              state_first = "gg_Nucb2_EDTA",
-                              state_second = "gg_Nucb2_CaCl2",
-                              chosen_time = 25,
-                              in_time = 0.001)
-
-     ggplot(result[result["out_time"]>=1,]) +
-      geom_line(aes(x = out_time, y = avg_err_state_first, color = "Average error (first state)")) +
-      geom_line(aes(x = out_time, y = avg_err_state_second, color = "Average error (second state)")) +
-      labs(x = "time [min]", y = "Average uncertainty", title = "Uncertainty change") +
-      theme_bw(base_size = 11) +
-      theme(legend.position = "bottom",
-            legend.title = element_blank())
-    
-    @
-    \caption{Plot ilustrating uncertainy change depending on used out parameter}
+  
+    \includegraphics[width=0.98\columnwidth]{figure/kinetics.png}
+    \caption{Kinetics plot for chosen peptides}
   \end{figure}
 
 \end{block}
