@@ -80,7 +80,7 @@
 %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 \newlength{\columnheight}
-\setlength{\columnheight}{84cm} % ------------------------------- od jakiej wysokości mają zaczynać się klocki, ale też miejsce dla tytułu autorów, afiliacji
+\setlength{\columnheight}{85cm} % ------------------------------- od jakiej wysokości mają zaczynać się klocki, ale też miejsce dla tytułu autorów, afiliacji
 \renewcommand{\thetable}{}
 \def\andname{,}
 \authornote{}
@@ -98,18 +98,18 @@
 \title{\Huge Analysis of data from hydrogen-deuterium exchange \\ mass spectometry experiments} 
 
 % -----------------------------------------------------------  Autorzy, mail, afiliacje
-\vspace{1.5cm}
+\vspace{2cm}
 
 \author{Weronika Pucha\l{}a\,$^{\text{\sfb 1}, *}$,
 Micha\l{} Burdukiewicz\,$^{\text{\sfb 2}}$,
 Micha\l{} Kistowski\,$^{\text{\sfb 1}}$,
-Katarzyna A. D\k{a}browska\,$^{\text{\sfb 1}}$,
-Aleksandra E. Badaczewska-Dawid\,$^{\text{\sfb 3}}$,\\ 
+Katarzyna A. D\k{a}browska\,$^{\text{\sfb 1}}$, \\
+Aleksandra E. Badaczewska-Dawid\,$^{\text{\sfb 3}}$, 
 Dominik Cysewski\,$^{\text{\sfb 1}}$,
 Micha\l{} Dadlez\,$^{\text{\sfb 1}}$\\
 \normaltext{*puchala.weronika@gmail.com}}
 \institute{$^{\text{\sf 1}}$Institute of Biochemistry and Biophysics Polish Academy of Sciences, Poland,
-$^{\text{\sf 2}}$Faculty of Mathematics and Information Science, Warsaw University of 
+$^{\text{\sf 2}}$Faculty of Mathematics and Information Science, \\ Warsaw University of 
 Technology, Poland,
 $^{\text{\sf 3}}$Faculty of Chemistry, Biological and Chemical Research Center, University of Warsaw, Poland.
 }
@@ -128,28 +128,8 @@ $^{\text{\sf 3}}$Faculty of Chemistry, Biological and Chemical Research Center, 
 
 \begin{block}{Introduction}
   <<echo=FALSE, warning=FALSE, error=FALSE, message=FALSE>>=
-  library(HaDeX)
-  library(ggplot2)
-  library(dplyr)
-  library(grid)
-  library(gridExtra)
-  
+
   knitr::opts_chunk$set(out.width=900, out.height=700)
-  
-  poster_theme <- theme_bw(base_size = 10) +
-                  theme(legend.position = "bottom",
-                        legend.title = element_blank(),
-                        legend.direction = "vertical")
-  
-  dat <- read_hdx(system.file(package = "HaDeX", "HaDeX/data/KD_190304_Nucb2_EDTA_CaCl2_test02_clusterdata.csv"))
-  
-  calc_dat <- prepare_dataset(dat,
-                               in_state_first = "gg_Nucb2_EDTA_0.001",
-                               chosen_state_first = "gg_Nucb2_EDTA_25",
-                               out_state_first = "gg_Nucb2_EDTA_1440",
-                               in_state_second = "gg_Nucb2_CaCl2_0.001",
-                               chosen_state_second = "gg_Nucb2_CaCl2_25",
-                               out_state_second = "gg_Nucb2_CaCl2_1440") 
   
   @
   
