@@ -52,6 +52,14 @@ library(seqinr)
 \begin{frame}
 
 \begin{figure} 
+\includegraphics[width=0.95\textwidth]{static_figure/HDX-0.pdf}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{figure} 
 \includegraphics[width=0.90\textwidth]{static_figure/HDX-1.pdf}
 \end{figure}
 
@@ -229,6 +237,14 @@ Uncertainties derived by error propagation~\citep{jcgm:2008:EMDG}.
 \end{itemize}
 \end{frame} 
 
+\begin{frame}{Summary}
+
+\begin{itemize}
+\item rapidly developing technologies require a flexible framework,
+\item the methods of data analysis should follow the development of both technology and expectations of its users.
+\end{itemize}
+\end{frame} 
+
 \begin{frame}{Acknowledgements}
 
 HaDeX developers:
@@ -257,7 +273,7 @@ MI$^2$ Data Lab (\url{https://mi2.mini.pw.edu.pl/}), Faculty of Mathematics and 
 
 Contact: \url{michalburdukiewicz@gmail.com}.
 
-Presentation: \url{https://github.com/michbur/dpm}.
+Presentation: \url{https://github.com/HaDeXversum/Talks-and-posters}.
 
 \end{frame}
 
