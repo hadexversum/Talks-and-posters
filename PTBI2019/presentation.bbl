@@ -1,0 +1,22 @@
+\begin{thebibliography}{}
+
+\bibitem[{Joint Committee for Guides in Metrology}, 2008]{jcgm:2008:EMDG}
+{Joint Committee for Guides in Metrology} (2008).
+\newblock {{JCGM}} 100: {{Evaluation}} of {{Measurement Data}} - {{Guide}} to
+  the {{Expression}} of {{Uncertainty}} in {{Measurement}}.
+\newblock Technical report, {JCGM}.
+
+\bibitem[Masson et~al., 2019]{MassonRecommendationsperforminginterpreting2019}
+Masson, G.~R., Burke, J.~E., Ahn, N.~G., Anand, G.~S., Borchers, C., Brier, S.,
+  {Bou-Assaf}, G.~M., Engen, J.~R., Englander, S.~W., Faber, J., Garlish, R.,
+  Griffin, P.~R., Gross, M.~L., Guttman, M., Hamuro, Y., Heck, A. J.~R., Houde,
+  D., Iacob, R.~E., J{\o}rgensen, T. J.~D., Kaltashov, I.~A., Klinman, J.~P.,
+  Konermann, L., Man, P., Mayne, L., Pascal, B.~D., Reichmann, D., Skehel, M.,
+  Snijder, J., Strutzenberg, T.~S., Underbakke, E.~S., Wagner, C., Wales,
+  T.~E., Walters, B.~T., Weis, D.~D., Wilson, D.~J., Wintrode, P.~L., Zhang,
+  Z., Zheng, J., Schriemer, D.~C., and Rand, K.~D. (2019).
+\newblock Recommendations for performing, interpreting and reporting hydrogen
+  deuterium exchange mass spectrometry ({{HDX}}-{{MS}}) experiments.
+\newblock {\em Nature Methods}, 16(7):595--602.
+
+\end{thebibliography}

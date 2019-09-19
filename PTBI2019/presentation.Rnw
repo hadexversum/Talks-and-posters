@@ -1,0 +1,271 @@
+\documentclass{beamer}
+\usetheme{focus}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{array,booktabs,tabularx}
+\usepackage{epstopdf}
+\usepackage{colortbl, xcolor}
+\usepackage{url}
+\usepackage{ulem}
+\usepackage{animate}
+
+\newcommand\Fontvi{\fontsize{6}{7.2}\selectfont}
+
+\newcommand{\btVFill}{\vskip0pt plus 1filll}
+
+\title{HaDeX: an R package and \mbox{web-server} for analysis of \mbox{data} from HDX-MS experiments}
+\date{}
+\author{\textbf{Dominik Cysewski}, Michał Burdukiewicz}
+\institute{\textbf{Institute of Biochemistry and Biophysics, PAS}\\
+MI$^2$ Data Lab, Warsaw University of Science and Technology
+}
+
+\begin{document}
+
+<<knitrIntro, echo = FALSE, message=FALSE,warning=FALSE>>=
+source("my_ggplot_theme.R")
+
+library(dplyr)
+library(reshape2)
+library(xtable)
+library(biogram)
+library(seqinr)
+
+
+@
+
+
+\maketitle
+
+\begin{frame}{Outline}
+
+\tableofcontents
+
+\end{frame} 
+
+\section{HDX-MS}
+
+\begin{frame}
+
+\begin{figure} 
+\includegraphics[width=0.90\textwidth]{static_figure/HDX-1.pdf}
+\end{figure}
+
+After the incubation in heavy water (D$_2$O), the most exposed amide hydrogens of the protein backbone are being replaced by deuters.
+
+\end{frame}
+
+\begin{frame}
+
+\begin{figure} 
+\includegraphics[width=0.80\textwidth]{static_figure/HDX-2.pdf}
+\end{figure}
+
+The longer incubation time, the more protected hydrogens are being replaced by deuters.
+
+\end{frame}
+
+\begin{frame}
+
+\begin{figure} 
+\includegraphics[width=0.90\textwidth]{static_figure/HDX-3.pdf}
+\end{figure}
+
+After the incubation, proteins are digested by a combination of proteases.
+
+\end{frame}
+
+\begin{frame}
+
+<<echo=FALSE,fig.height=3.5>>=
+dat <- read.csv("./data/example_peptide.csv")
+
+plot_dat <- select(dat, frac_exch_state_1, frac_exch_state_2, state) %>% 
+  mutate(time = as.numeric(sapply(strsplit(as.character(state), "_"), last))) %>% 
+  select(-state) %>% 
+  melt(id.vars = "time") %>% 
+  mutate(variable = ifelse(variable == "frac_exch_state_1", "State a", "State b")) %>% 
+  filter(variable == "State a")
+
+ggplot(plot_dat, aes(x = time, y = value, group = variable)) +
+  geom_point(size = 4) +
+  geom_line(linetype = "dashed", size = 1) +
+  scale_y_continuous("Relative deuteration") +
+  scale_x_continuous("Time [s]") +
+  scale_color_discrete("") +
+  ggtitle(plot_dat[1, "Sequence"]) +
+  my_theme
+
+@
+
+
+Thanks to the mass spectrometry, we are able to compute the m/z of each peptide depending on the duration of the incubation, thus we can compute a relative deuteration of a peptide.
+
+\end{frame}
+
+\begin{frame}{Multi-state analysis}
+
+<<echo=FALSE,fig.height=4>>=
+dat <- read.csv("./data/example_peptide.csv")
+
+plot_dat <- select(dat, frac_exch_state_1, frac_exch_state_2, state) %>% 
+  mutate(time = as.numeric(sapply(strsplit(as.character(state), "_"), last))) %>% 
+  select(-state) %>% 
+  melt(id.vars = "time") %>% 
+  mutate(variable = ifelse(variable == "frac_exch_state_1", "State a", "State b")) 
+
+ggplot(plot_dat, aes(x = time, y = value, color = variable)) +
+  geom_point(size = 4) +
+  geom_line(linetype = "dashed", size = 1) +
+  scale_y_continuous("Relative deuteration") +
+  scale_x_continuous("Time [s]") +
+  scale_color_discrete("") +
+  ggtitle(plot_dat[1, "Sequence"]) +
+  my_theme
+
+@
+
+
+Peptides may come from proteins in differents states, i.e. bounded by different cofactors.
+
+\end{frame}
+
+
+\begin{frame}
+
+\begin{center}
+  \animategraphics[autoplay,loop,width=0.65\linewidth]{15}{static_figure/animation/gganim_plot}{0001}{0100}
+\end{center}
+
+During the analysis of the HDX-MS data we have to consider both time of the incubation and position of a peptide in a sequence. 
+
+\end{frame}
+
+\begin{frame}{Applications}
+
+\begin{figure} 
+\includegraphics[width=0.90\textwidth]{static_figure/hdx-applications.png}
+\end{figure}
+
+Source: \citet{MassonRecommendationsperforminginterpreting2019}.
+
+\end{frame}
+
+\section{HaDeX workflow}
+
+\begin{frame}{Aims}
+
+HaDeX: 
+\begin{itemize}
+\item easy,
+\item comprehensive,
+\item reproducible.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\begin{figure} 
+\includegraphics[width=\textwidth]{static_figure/HaDeX-1.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{figure} 
+\includegraphics[width=\textwidth]{static_figure/HaDeX-2.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{figure} 
+\includegraphics[width=\textwidth]{static_figure/HaDeX-3.png}
+\end{figure}
+
+Uncertainties derived by error propagation~\citep{jcgm:2008:EMDG}.
+
+\end{frame}
+
+\begin{frame}
+\begin{figure} 
+\includegraphics[width=\textwidth]{static_figure/HaDeX-4.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{figure} 
+\includegraphics[width=\textwidth]{static_figure/HaDeX-5.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{figure} 
+\includegraphics[width=\textwidth]{static_figure/HaDeX-6.png}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}
+\begin{figure} 
+\includegraphics[width=\textwidth]{static_figure/HaDeX-7.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{figure} 
+\includegraphics[width=\textwidth]{static_figure/HaDeX-8.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Availability}
+
+\begin{itemize}
+\item a web-server (\url{http://mslab-ibb.pl/shiny/HaDeX/}), 
+\item the R package (\url{https://CRAN.R-project.org/package=HaDeX}),
+\item a standalone software (\url{https://sourceforge.net/projects/HaDeX/}).
+\end{itemize}
+\end{frame} 
+
+\begin{frame}{Acknowledgements}
+
+HaDeX developers:
+
+\begin{itemize}
+\item Weronika Puchala (main developer),
+\item Dominik Rafacz (frontend developer).
+\end{itemize}
+\end{frame} 
+
+\begin{frame}{Funding}
+
+\begin{itemize}
+\item Foundation of Polish Science TEAM TECH CORE FACILITY/2016-2/2 Mass Spectrometry of Biopharmaceuticals - improved methodologies for qualitative, quantitative and structural characterization of drugs, proteinaceous drug targets and diagnostic molecules.
+\end{itemize}
+
+\end{frame} 
+
+\begin{frame}{MI$^2$ Data Lab}
+
+MI$^2$ Data Lab (\url{https://mi2.mini.pw.edu.pl/}), Faculty of Mathematics and Information Science, Warsaw University of Technology.
+
+\begin{figure} 
+\includegraphics[width=0.75\textwidth]{static_figure/mi2.png}
+\end{figure}
+
+Contact: \url{michalburdukiewicz@gmail.com}.
+
+Presentation: \url{https://github.com/michbur/dpm}.
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{References}
+\bibliographystyle{apalike}
+\bibliography{HDX}
+\end{frame}  
+
+
+\end{document}
