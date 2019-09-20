@@ -247,13 +247,49 @@ Uncertainties derived by error propagation~\citep{jcgm:2008:EMDG}.
 
 \begin{frame}{Acknowledgements}
 
+\begin{columns}
+\begin{column}{0.5\textwidth}
 HaDeX developers:
-
 \begin{itemize}
 \item Weronika Puchala (main developer),
 \item Dominik Rafacz (frontend developer).
 \end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}  %%<--- here
+    \begin{center}
+    \includegraphics[width=0.6\textwidth]{static_figure/weronika.png}
+     \includegraphics[width=0.6\textwidth]{static_figure/dominik.png}
+     \end{center}
+\end{column}
+\end{columns}
 \end{frame} 
+
+\begin{frame}{Acknowledgements}
+
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+   \begin{itemize}
+   \item Mass Spectrometry Lab, Institute of Biochemistry and Biophysics, PAS.
+   \item MI$^2$ Data Lab, Faculty of Mathematics and Information Science, Warsaw University of Technology.
+   \end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}  %%<--- here
+    \begin{center}
+    \includegraphics[width=0.9\textwidth]{static_figure/ibb_logo.png}
+     \includegraphics[width=0.9\textwidth]{static_figure/mi2.png}
+     \end{center}
+\end{column}
+\end{columns}
+
+\medskip 
+
+Contact: \url{michalburdukiewicz@gmail.com}.
+
+Presentation: \url{https://github.com/HaDeXversum/Talks-and-posters}.
+
+\end{frame}
+
 
 \begin{frame}{Funding}
 
@@ -263,19 +299,7 @@ HaDeX developers:
 
 \end{frame} 
 
-\begin{frame}{MI$^2$ Data Lab}
 
-MI$^2$ Data Lab (\url{https://mi2.mini.pw.edu.pl/}), Faculty of Mathematics and Information Science, Warsaw University of Technology.
-
-\begin{figure} 
-\includegraphics[width=0.75\textwidth]{static_figure/mi2.png}
-\end{figure}
-
-Contact: \url{michalburdukiewicz@gmail.com}.
-
-Presentation: \url{https://github.com/HaDeXversum/Talks-and-posters}.
-
-\end{frame}
 
 \begin{frame}[allowframebreaks]
 \frametitle{References}
