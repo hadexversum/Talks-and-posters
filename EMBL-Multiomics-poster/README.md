@@ -1,0 +1,1 @@
+Poster presented on EMBL Symposium: Multiomics to Mechanisms - Challenges in Data Integration, 11-13 September 2019
