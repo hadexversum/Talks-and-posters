@@ -80,7 +80,7 @@
 %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 \newlength{\columnheight}
-\setlength{\columnheight}{94cm} % ------------------------------- od jakiej wysokości mają zaczynać się klocki, ale też miejsce dla tytułu autorów, afiliacji
+\setlength{\columnheight}{96cm} % ------------------------------- od jakiej wysokości mają zaczynać się klocki, ale też miejsce dla tytułu autorów, afiliacji
 \renewcommand{\thetable}{}
 \def\andname{,}
 \authornote{}
@@ -95,7 +95,7 @@
 %-------------------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------- Tytuł
 
-\title{\Huge Analysis of data from hydrogen-deuterium exchange \\ mass spectometry experiments} 
+\title{\Huge Analysis of data from hydrogen-deuterium exchange \\ mass spectrometry experiments} 
 
 % -----------------------------------------------------------  Autorzy, mail, afiliacje
 \vspace{2cm}
@@ -218,18 +218,8 @@ $^{\text{\sf 3}}$Faculty of Chemistry, Biological and Chemical Research Center, 
           }
         \end{figure}
       \end{array}
-
-as the R package:
-\url{https://cran.r-project.org/web/packages/HaDeX/index.html}$\begin{array}{l}
-        \begin{figure}[ht]
-          \centering
-          \scalebox{0.5}{
-            \includegraphics{figure/cran_qr.png}
-          }
-        \end{figure}
-      \end{array}
       
-and as a standalone software:
+or a standalone software:
 \url{https://sourceforge.net/projects/hadex/}$\begin{array}{l}
         \begin{figure}[ht]
           \centering
@@ -239,6 +229,16 @@ and as a standalone software:
         \end{figure}
       \end{array}
 
+
+The documentation and methodology is available on: 
+\url{https://hadexversum.github.io/HaDeX/articles/overview.html}$\begin{array}{l}
+        \begin{figure}[ht]
+          \centering
+          \scalebox{0.45}{
+            \includegraphics{figure/qr_cods.png}
+          }
+        \end{figure}
+      \end{array}
 
 \end{block}
 
@@ -262,10 +262,7 @@ and as a standalone software:
 
   \justify The \textbf{HaDeX} provides the tools to view and analyse the results of HDX-MS data. Obtained data is used to show information in different ways.
   
-  \begin{figure}
-    \includegraphics[width=0.98\columnwidth]{figure/sequence_1.png}
-    \caption{Sequence reconstruction and basic information}
-  \end{figure}
+  \vspace{0.5cm}
   
   \begin{figure}
     \includegraphics[width=0.98\columnwidth]{figure/sequence_2.png}
@@ -280,11 +277,33 @@ and as a standalone software:
 
   \justify \textbf{HaDeX} has a module for analyzing deuteration uptake change in time for given peptide in given time. For comparison, choosing multiple combinations of peptides and their states is possible for the plot. 
   
-  \begin{figure}
+  \vspace{0.5cm}
   
+  \begin{figure}
     \includegraphics[width=0.98\columnwidth]{figure/kinetics.png}
     \caption{Kinetics plot for chosen peptides}
   \end{figure}
+
+\end{block}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{block}{Recommendations for performing an experiment}
+
+  \vspace{0.5cm}
+  \begin{columns}
+    \begin{column}{0.55\textwidth}
+    \justify \textbf{HaDeX} follows the recently published recommendations for performing, interpreting and reporting HDX-MS experiments. One aspect of that is summary of the data - for quality control purposes - as shown on the figure \ref{fig:sum}. The summary table can be downloaded in csv/pdf form, like all of the available data tables. 
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \begin{figure}
+        \includegraphics[width=0.5\columnwidth]{figure/hadex_summary_table.png}
+        \caption{Summary table}
+        \label{fig:sum}
+      \end{figure}
+    \end{column}
+  \end{columns}
+  
 
 \end{block}
 
@@ -295,10 +314,10 @@ and as a standalone software:
   \vspace{0.5cm}
   
   \begin{columns}
-    \begin{column}{0.5\textwidth}
-       \textbf{HaDeX} provides report generation - with parameters chosen by user so is fully personalizable. Additionaly, calculated data for plots can be downloaded not only in report form but also in csv/pdf file in panel next to every plot. On figure \ref{fig:rep} are shown available elements of the report - that can be chosen by user and limited strickly for user needs.
+    \begin{column}{0.45\textwidth}
+       \justify \textbf{HaDeX} provides report generation - with parameters chosen by user so is fully personalizable.  On figure \ref{fig:rep} are shown available elements of the report - that can be chosen by user and limited strickly for user needs.
     \end{column}
-    \begin{column}{0.5\textwidth}  
+    \begin{column}{0.55\textwidth}  
       \begin{center}
         \begin{figure}
           \includegraphics[width=0.8\columnwidth]{figure/report.png}
@@ -337,6 +356,8 @@ and as a standalone software:
     \item [3] Deuteros: software for rapid analysis and visualization of data from differential hydrogen deuterium exchange-mass spectrometry, Andy M C Lau, Zainab Ahdash, Chloe Martens, Argyris Politis, Bioinformatics, btz022, https://doi.org/10.1093/bioinformatics/btz022
     \item [4] ISO, Guide to the Expression of Uncertainty in Measurement (International Organization for Standardization, Geneva, Switzerland, 1993)
     \item [5] The Utility of Hydrogen/Deuterium Exchange Mass Spectrometry in Biopharmaceutical Comparability Studies. Houde, D.et al.(2011). Journal of pharmaceutical sciences,100(6), 2071–2086
+    \item [6] Masson GR, Burke JE, Ahn NG, Anand GS, Borchers C, Brier S, et al. Recommendations for performing, interpreting and reporting hydrogen deuterium exchange mass spectrometry (HDX-MS) experiments. Nat Methods. 2019 Jul;16(7):595–602. 
+
   \end{enumerate}
 \end{block}
 
