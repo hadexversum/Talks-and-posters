@@ -80,7 +80,7 @@
 %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 \newlength{\columnheight}
-\setlength{\columnheight}{85cm} % ------------------------------- od jakiej wysokości mają zaczynać się klocki, ale też miejsce dla tytułu autorów, afiliacji
+\setlength{\columnheight}{94cm} % ------------------------------- od jakiej wysokości mają zaczynać się klocki, ale też miejsce dla tytułu autorów, afiliacji
 \renewcommand{\thetable}{}
 \def\andname{,}
 \authornote{}
