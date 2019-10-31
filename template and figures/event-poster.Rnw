@@ -80,7 +80,7 @@
 %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 \newlength{\columnheight}
-\setlength{\columnheight}{84cm} % ------------------------------- od jakiej wysokości mają zaczynać się klocki, ale też miejsce dla tytułu autorów, afiliacji
+\setlength{\columnheight}{95cm} % ------------------------------- od jakiej wysokości mają zaczynać się klocki, ale też miejsce dla tytułu autorów, afiliacji
 \renewcommand{\thetable}{}
 \def\andname{,}
 \authornote{}
@@ -149,12 +149,17 @@ Block3 Block3 Block3 Block3 Block3 Block3 Block3 Block3 Block3 Block3 Block3 Blo
 
 \begin{block}{Block 4}
 
-Block4 Block4 Block4 Block4 Block4 Block4 Block4 Block4 Block4 
-Block4 Block4 Block4 Block4 
-Block4 Block4 Block4 
-
-Block4 
-Block4 
+\begin{columns}
+  \begin{column}{0.5\textwidth}
+    Block4 Block4 Block4 Block4 Block4 Block4 Block4 Block4 Block4 
+    Block4 Block4 Block4 Block4 
+    Block4 Block4 Block4 
+  \end{column}
+  \begin{column}{0.5\textwidth}
+    Block4 
+    Block4 
+  \end{column}
+\end{columns}
 
 \end{block}
 
