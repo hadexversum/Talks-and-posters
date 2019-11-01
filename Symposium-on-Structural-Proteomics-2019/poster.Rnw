@@ -1,0 +1,337 @@
+\documentclass[final]{beamer}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{epstopdf}
+\usepackage{multicol}
+\usepackage{ragged2e}
+
+\apptocmd{\frame}{}{\justifying}{}
+
+%\usepackage{polski}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+\ifdim\Gin@nat@width>\linewidth
+\linewidth
+\else
+\Gin@nat@width
+\fi
+}
+\makeatother
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+\def\at@end@of@kframe{}%
+\ifinner\ifhmode%
+\def\at@end@of@kframe{\end{minipage}}%
+\begin{minipage}{\columnwidth}%
+\fi\fi%
+\def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+\colorbox{shadecolor}{##1}\hskip-\fboxsep
+% There is no \\@totalrightmargin, so:
+\hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+\MakeFramed {\advance\hsize-\width
+\@totalleftmargin\z@ \linewidth\hsize
+\@setminipage}}%
+{\par\unskip\endMakeFramed%
+\at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{grffile}
+\mode<presentation>{\usetheme{Poster}}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{array,booktabs,tabularx}
+\usepackage{epstopdf}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{colortbl}
+\newcolumntype{Z}{>{\centering\arraybackslash}X}
+
+% rysunki
+\usepackage{tikz}
+\usepackage{ifthen}
+\usepackage{xxcolor}
+\usetikzlibrary{arrows}
+\usetikzlibrary[topaths]
+\usetikzlibrary{decorations.pathreplacing}
+\usefonttheme[onlymath]{serif}
+\boldmath
+\usepackage[orientation=portrait,size=a0,scale=1,debug]{beamerposter}                       % e.g. for DIN-A0 poster
+%\usepackage[orientation=portrait,size=a1,scale=1.4,grid,debug]{beamerposter}                  % e.g. for DIN-A1 poster, with optional grid and debug output
+%\usepackage[size=custom,width=200,height=120,scale=2,debug]{beamerposter}                     % e.g. for custom size poster
+%\usepackage[orientation=portrait,size=a0,scale=1.0,printer=rwth-glossy-uv.df]{beamerposter}   % e.g. for DIN-A0 poster with rwth-glossy-uv printer check
+% ...
+%
+
+\setbeamertemplate{caption}[numbered]
+
+%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+\newlength{\columnheight}
+\setlength{\columnheight}{102cm} % ------------------------------- od jakiej wysokości mają zaczynać się klocki, ale też miejsce dla tytułu autorów, afiliacji
+\renewcommand{\thetable}{}
+\def\andname{,}
+\authornote{}
+
+
+
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+% Początek posteru
+%-------------------------------------------------------------------------------------------------------------------
+%-------------------------------------------------------------- Tytuł
+
+\title{\huge Just give me a p-value: \\ statistical analysis of deuterium uptake curves in HDX-MS} 
+
+% -----------------------------------------------------------  Autorzy, mail, afiliacje
+\vspace{1cm}
+
+\author{Micha\l{} Burdukiewicz\,$^{\text{\sfb 1}, *}$,
+Mateusz Staniak\,$^{\text{\sfb 2}}$,
+Weronik Pucha\l{}a\,$^{\text{\sfb 3}}$,
+Dominik Cysewski\,$^{\text{\sfb 3}}$,
+Micha\l{} Dadlez\,$^{\text{\sfb 3}}$\\
+\normaltext{*michal.burdukiewicz@gmail.com}}
+\institute{
+$^{\text{\sf 2}}$Faculty of Mathematics and Information Science, Warsaw University of 
+Technology, Poland,
+$^{\text{\sf 3}}$Institute of Mathematics, University of Wro\l{}aw, Poland,
+$^{\text{\sf 1}}$Institute of Biochemistry and Biophysics Polish Academy of Sciences, Poland.
+}
+}
+
+\begin{frame}
+
+\begin{columns}
+\begin{column}{.5\textwidth} %------------------------------------------------ szerokość kolumny lewej
+\begin{beamercolorbox}[center,wd=\textwidth]{postercolumn}
+\begin{minipage}[T]{.99\textwidth}
+\parbox[t][\columnheight]{\textwidth}
+{
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{block}{Introduction}
+<<echo=FALSE, warning=FALSE, error=FALSE, message=FALSE>>=
+library(HaDeX)
+library(ggplot2)
+library(dplyr)
+library(grid)
+library(gridExtra)
+
+knitr::opts_chunk$set(fig.width=14)
+
+hdx <- readRDS("./Data/hdx_curves_properties.RDS")
+hdx_final <- readRDS("./Data/hdx_processed.RDS")
+hdx_seqs <- readRDS("./Data/hdx_sequence_positions.RDS")
+properties <- readRDS("./Data/hdx_curves_properties.RDS")
+
+# all_tests <- readRDS("../Data/summary/all_tests.RDS")
+# all_tests_vals <- readRDS("../Data/summary/all_tests_values.RDS")
+# all_tests_decs <- readRDS("../Data/summary/all_tests_decisions.RDS")
+# all_tests <- readRDS("../Data/summary/all_tests_no1440.RDS")
+# all_tests_vals <- readRDS("../Data/summary/all_tests_values_no1440.RDS")
+# all_tests_decs <- readRDS("../Data/summary/all_tests_decisions_no1440.RDS")
+
+all_tests <- readRDS("./Data/results_final.RDS") %>%
+  # filter(!(Aggregated & RandomEffect)) %>%
+  mutate(Transformation = ifelse(grepl("log", Transformation), "ln", "id"),
+         # Correlation = ifelse(Correlation == "default", "de", "ca"),
+         # RandomEffect = ifelse(RandomEffect | !is.na(RandomEffect), "re", "fe"),
+         Aggregated = ifelse(Aggregated, "ag", "nag")) %>%
+  mutate(Method = paste(EstimationMethod, Aggregated, Transformation, Correlation, RandomEffect,
+                        sep = ".")) %>%
+  group_by(Method) %>%
+  mutate(PercentRejectedClass = cut(
+    100*sum(Decision, na.rm = TRUE)/(n() - sum(is.na(Decision))),
+    seq(0, 80, by = 10)
+  )) %>%
+  left_join(properties)  
+@
+The misuse of statistical testing is one of the pitfalls of contemporary science (Krueger and Heck, 2019). It is especially prevalent in rapidly growing fields as the HDX-MS, where the development of experimental techniques precedes the formalization of good practices in data analysis. 
+\end{block}
+
+
+\begin{block}{Methods} 
+We have proposed and investigated 30 statistical models on several HDX-MS datasets, partially based on models proposed elsewhere (Houde et al., 2011; Hourdel et al., 2016). As the theoretical model of deuterium uptake distributions is still unclear, we compare our models to empirical measures. 
+
+We use the following measures:
+
+\begin{enumerate}
+\item Mean Absolute Error (mean length of red lines in the Figure)
+\item Squared Error (mean square length of red lines in the Figure)
+\item Area Under the Curve (sum of areas of trapezoids between the red lines in the Figure)
+\end{enumerate}
+
+<<echo=FALSE>>=
+one_curve <- dplyr::filter(hdx_final, Protein == "CHAIN_SEQUENCE", 
+                           Sequence == "PWQGTMTL",
+                           State == "hCC")
+ggplot(one_curve, 
+       aes(x = Exposure, y = Mass)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = 930, ymax = Mass), color = "red") +
+  geom_line(size = 0.8, alpha = 0.8) +
+  theme_bw(base_size = 24)
+@
+
+
+\end{block}
+
+
+\begin{block}{Houde's test} 
+
+Houde's test is based on the following confidence interval:
+
+$$
+0 +/- \Big(\sqrt{\sum_{t = 1}^{n}\frac{\sigma_{t}^{2}}{N_t}}\Big)\times\alpha
+$$
+
+\end{block}
+
+\begin{block}{Linear Models}
+
+In general, a test based on a linear model is derived from a model
+
+$$ 
+Y = \beta_{Time}X_{Time} + \beta_{State}X_{State} + \beta_{Time, State}X_{Time}X_{State} + \varepsilon
+$$
+Where $\varepsilon$ denotes a random error.
+The time variable $X_{Time}$ can be transformed.
+We will compare models with untransformed and log-transformed time.
+Additionally, the model can include a term that corresponds to replications within a state.
+In this case, the following model formula is used.
+
+$$ 
+Y = \beta_{Time}X_{Time} + \beta_{State}X_{State} + \beta_{Time, State}X_{Time}X_{State} + \beta_{Rep}X_rep +  \varepsilon
+$$
+The coefficient $\beta_{Rep}$ can be treated as either a fixed or a random effect.
+We test both of these options.
+
+\end{block}
+
+\begin{block}{Mean Absolute Error} 
+
+<<echo=FALSE,warning=FALSE,message=FALSE,fig.height=17.5>>=
+
+mutate(all_tests,
+       Transformation = factor(Transformation, levels = c("id", "ln"), labels = c("identity", "log")),
+       Aggregated = factor(Aggregated, levels = c("ag", "nag"), labels = c("yes", "no"))) %>%
+  ggplot(aes(x = MAE, fill = Decision)) +
+  geom_histogram(alpha = 0.8) +
+  facet_wrap(~ EstimationMethod + Transformation + Aggregated, labeller = label_both,
+             nrow = 4) +
+  theme_bw(base_size = 24) +
+  theme(legend.position = "bottom")
+@
+
+
+\end{block}
+
+
+}
+\end{minipage}
+\end{beamercolorbox}
+\end{column}
+
+
+%new column -------------------------------------------------------------------------------------------------    
+
+\begin{column}{.47\textwidth} % ----------------------------------------- szerokość kolumny prawej
+\begin{beamercolorbox}[center,wd=\textwidth]{postercolumn}
+\begin{minipage}[T]{.99\textwidth}  
+\parbox[t][\columnheight]{\textwidth}
+{
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{block}{Area Under the Curve} 
+
+<<echo=FALSE,warning=FALSE,message=FALSE,fig.height=17.5>>=
+
+mutate(all_tests,
+       Transformation = factor(Transformation, levels = c("id", "ln"), labels = c("identity", "log")),
+       Aggregated = factor(Aggregated, levels = c("ag", "nag"), labels = c("yes", "no"))) %>%
+  ggplot(aes(x = Area_rel, fill = Decision)) +
+  geom_histogram(alpha = 0.8) +
+  facet_wrap(~ EstimationMethod + Transformation + Aggregated, labeller = label_both,
+             nrow = 4) +
+  theme_bw(base_size = 24) +
+  theme(legend.position = "bottom")
+@
+
+We point out that tests based on non-aggregated deuterium uptake are more sensitive, especially to the differences of shapes of deuterium uptake curves. In consequence, such tests can find not only significant differences in absolute deuterium uptake but also in the speed of hydrogen-deuterium exchange. 
+\end{block}
+
+
+\begin{block}{Multi-state variability test (MSVT)} 
+
+A multi-state variability test offers a statistical assessment of regional variability. A user can compare relative deuteration between multiple states in specific regions of the interest (ROI).
+
+\begin{figure}
+\includegraphics[width=0.98\columnwidth]{figure/example_curves.eps}
+\end{figure}
+
+MSVT relies on information coming from all peptides which at least partially cover the specified ROI. It means that instead of per-peptide results, we take into account a whole regional variability, which leads to the increase of sensitivity.
+
+Aside from these benefits, MSVT is calibrated to the area between kinetic curves. Thanks to that it offers a straightforward interpretation for experimentalists, while preserving full statistical validity.
+
+As MSVT is not yet a part of the HaDeX software suite and is available only upon request.
+
+\end{block}
+
+
+\begin{block}{Acknowledgements}
+
+The project is carried out within the TEAM TECH programme of the Foundation for Polish Science co-financed by the European Union under the European Regional Development Fund.(TEAM TECH CORE FACILITY/2016-2/2) „Mass Spectrometry of Biopharmaceuticals-improved methodologies for qualitative, quantitative and structural characterization of drugs, proteinaceous drug targets and diagnostic molecules”
+
+\begin{figure}
+\includegraphics[width=0.95\columnwidth]{figure/listwa.png}
+\end{figure}
+
+\end{block}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{block}{Bibliography}
+
+\begin{enumerate}
+\item MEMHDX: an interactive tool to expedite the statistical validation and visualization of large HDX-MS
+datasets. Hourdel V, Volant S, O'Brien DP, Chenal A, Chamot-Rooke J, Dillies MA, Brier S. Bioinformatics.
+2016 Nov 15;32(22):3413-3419. Epub 2016 Jul 13
+\item The Utility of Hydrogen/Deuterium Exchange Mass Spectrometry in Biopharmaceutical Comparability Studies. Houde, D.et al.(2011). Journal of pharmaceutical sciences,100(6), 2071–2086
+\end{enumerate}
+
+\end{block}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+}
+\end{minipage}
+\end{beamercolorbox}
+\end{column}
+\end{columns}  
+
+
+\end{frame}
+
+
+\end{document}
