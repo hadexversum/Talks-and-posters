@@ -3,58 +3,12 @@
 .RData
 .Ruserdata
 Talks-and-posters.Rproj
-ISMBECCB2019-poster/ISMBECCB2019-poster-concordance.tex
-ISMBECCB2019-poster/ISMBECCB2019-poster.log
-ISMBECCB2019-poster/ISMBECCB2019-poster.nav
-ISMBECCB2019-poster/ISMBECCB2019-poster.snm
-ISMBECCB2019-poster/ISMBECCB2019-poster.synctex.gz
-ISMBECCB2019-poster/ISMBECCB2019-poster.tex
-ISMBECCB2019-poster/ISMBECCB2019-poster.toc
-template and figures/event-poster-concordance.tex
-template and figures/event-poster.log
-template and figures/event-poster.nav
-template and figures/event-poster.snm
-template and figures/event-poster.synctex.gz
-template and figures/event-poster.tex
-template and figures/event-poster.toc
-EMBL-Multiomics-poster/EMBL-Multiomics-poster-concordance.tex
-EMBL-Multiomics-poster/EMBL-Multiomics-poster.log
-EMBL-Multiomics-poster/EMBL-Multiomics-poster.nav
-EMBL-Multiomics-poster/EMBL-Multiomics-poster.snm
-EMBL-Multiomics-poster/EMBL-Multiomics-poster.synctex.gz
-EMBL-Multiomics-poster/EMBL-Multiomics-poster.tex
-EMBL-Multiomics-poster/EMBL-Multiomics-poster.toc
-PTBI2019/presentation-concordance.tex
-PTBI2019/presentation.aux
-PTBI2019/presentation.log
-PTBI2019/presentation.nav
-PTBI2019/presentation.snm
-PTBI2019/presentation.synctex.gz
-PTBI2019/presentation.tex
-PTBI2019/presentation.toc
-Gottingen-poster/Gottingen-poster-concordance.tex
-Gottingen-poster/Gottingen-poster.log
-Gottingen-poster/Gottingen-poster.nav
-Gottingen-poster/Gottingen-poster.snm
-Gottingen-poster/Gottingen-poster.synctex.gz
-Gottingen-poster/Gottingen-poster.tex
-Gottingen-poster/Gottingen-poster.toc
-HaDeX-Talks-and-posters.Rproj
-Dublin-poster/Dublin-poster-concordance.tex
-Dublin-poster/Dublin-poster.log
-Dublin-poster/Dublin-poster.nav
-Dublin-poster/Dublin-poster.snm
-Dublin-poster/Dublin-poster.synctex.gz
-Dublin-poster/Dublin-poster.tex
-Dublin-poster/Dublin-poster.toc
-Dublin-poster/Dublin-poster.aux
-Dublin-poster/Dublin-poster.out
-Symposium-on-Structural-Proteomics-2019/poster-concordance.tex
-Symposium-on-Structural-Proteomics-2019/poster.log
-Symposium-on-Structural-Proteomics-2019/poster.nav
-Symposium-on-Structural-Proteomics-2019/poster.snm
-Symposium-on-Structural-Proteomics-2019/poster.synctex.gz
-Symposium-on-Structural-Proteomics-2019/poster.tex
-Symposium-on-Structural-Proteomics-2019/poster.toc
-Symposium-on-Structural-Proteomics-2019/poster.aux
-Symposium-on-Structural-Proteomics-2019/poster.out
+*/*.out
+*/*.aux
+*/*.log
+*/*.toc
+*/*.nav
+*/*.bbl
+*/*.snm
+*/*.tex
+*/*.synctex.gz
